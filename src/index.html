@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<html>
+
+<head id="head">
+	<link rel="shortcut icon" href="images/icon.ico">
+	<!--<script type="text/javascript" id="jscolors" src="jscolor/jscolor.js"></script>-->
+	<script type="text/javascript">
+		var Color = new Array("00cc00");
+		var Text = new Array("Super");
+		var Type = false;
+		var maps = new Array("THE CITY", "THE FOREST", "ANNIE II", "OUTSIDE THE WALLS", "FOREST III", "FOREST II");
+		window.onload = function () {
+			if (navigator.appName.toLowerCase() == "gecko") {
+				document.getElementById("warning").style.display = "initial";
+			}
+		};
+		function checkRadio() {
+			if (document.getElementById("Guild").checked) {
+				document.getElementById("Example").style.backgroundColor = "#0f0f0f";
+				document.getElementById("novalty").innerHTML = "";
+				Type = false;
+				document.getElementById("type").innerHTML = "Guild";
+			} else if (document.getElementById("Server").checked) {
+				document.getElementById("Example").style.backgroundColor = "#7b7262";
+				switch (Math.floor((Math.random() * 3) + 1)) {
+					case 1:
+						var mode = "NORMAL"
+						break;
+					case 2:
+						var mode = "HARD"
+						break;
+					case 3:
+						var mode = "ABNORMAL"
+						break;
+				};
+				switch (Math.floor((Math.random() * 3) + 1)) {
+					case 1:
+						var tod = "DAWN"
+						break;
+					case 2:
+						var tod = "DAY"
+						break;
+					case 3:
+						var tod = "NIGHT"
+						break;
+				};
+				document.getElementById("novalty").innerHTML = "/" + maps[Math.floor((Math.random() * (maps.length - 1) + 0))] + "/" + mode + "/" + tod + " " + Math.floor((Math.random() * 14 + 1)) + "/15";
+				Type = true;
+				document.getElementById("type").innerHTML = "Server";
+			};
+		};
+		function Add() {//This is supposed to add another color for the text
+			//var olscrpt = document.getElementById("jscolors");
+			//var head = document.getElementsByTagName("head");
+			//head.removeChild(olscrpt);
+			Text[Color.length] = "Text";
+			Color[Color.length] = "ffffff";
+			var scrpt = document.createElement("script");
+			var child1 = document.createElement("textarea");
+			var child2 = document.createElement("input");
+			var dad = document.createElement("div");
+			var line = document.createElement("hr");
+			line.style.width = "160px";
+			child1.id = "TextIn-" + Color.length;
+			child1.value = "text";
+			child2.id = "ColorIn-" + Color.length;
+			child2.value = "00cc00";
+			child2.className = "color";
+			child2.type = "color";
+			dad.id = "Test-" + (Color.length);
+			//scrpt.id = "jscolors";
+			//scrpt.type = "text/javascript";
+			//scrpt.src = "jscolor/jscolor.js";
+			dad.appendChild(line);
+			dad.appendChild(child1);
+			dad.appendChild(document.createElement("br"));
+			dad.appendChild(child2);
+			document.getElementById("Texts").appendChild(dad);
+			//document.getElementById("head").appendChild(scrpt);
+			//fireEvent(window, "load");
+		};
+
+		function Remove() {//this is supposed to remove it.
+			if (Text.length > 1) {
+				var Deleted = document.getElementById("Texts").lastChild;
+				var Parent = document.getElementById("Texts");
+				Text.pop();
+				Color.pop();
+				Parent.removeChild(Deleted);
+			};
+
+		};
+
+		function GetAndSet() {
+			document.getElementById("Example").innerHTML = "";
+			document.getElementById("Output").value = "";
+			for (var i = 0; i < Color.length; i++) {
+				if (document.getElementById("ColorIn-" + (i + 1)).value.indexOf("#") == -1) {
+					Color[i] = document.getElementById("ColorIn-" + (i + 1)).value;
+				} else { Color[i] = document.getElementById("ColorIn-" + (i + 1)).value.slice(1, 7) }
+				Text[i] = document.getElementById("TextIn-" + (i + 1)).value;
+				document.getElementById("Example").innerHTML += "<span id='Example-" + (i + 1) + "'>" + Text[i] + "</span>";
+				document.getElementById("Example-" + (i + 1)).style.color = "#" + Color[i];
+				document.getElementById("Output").value += "[" + Color[i] + "]" + Text[i];
+			}
+			if (Type) {
+				var data = document.getElementById("Output").value;
+				document.getElementById("Output").value = (data + "[ffffff]");
+			}
+		}
+	</script>
+	<title>AOTTG Colorizer</title>
+	<style type="text/css">
+		body {
+			text-align: center;
+			background-image: url("images/background.png");
+			color: #fff;
+			font-family: Arial;
+		}
+
+		h1 {
+			-webkit-text-stroke-color: #000 1px;
+			text-shadow: 2px 2px 5px #000;
+		}
+
+		p {
+			font-size: 25px;
+		}
+
+		.color {
+			width: 160px;
+		}
+
+		a:aactive {
+			color: #1650e7;
+		}
+	</style>
+</head>
+
+<body style="text-align:center; ">
+	<header>
+		<img src="images/AOTTGlogo.png" width="310" height="157"></img>
+		<h1>Aottg Text colorizer!</h1>
+	</header>
+	<center>
+		<div style=" background-color:rgba( 0, 0, 0, .7); color:#fff; text-align:center; width:500px;">
+			<p id="warning" style="color:#ff0000; display:none;"><span><b>***Your browser may be incompatible with this
+						tool, please install firefox or chrome and come again***</b></span></p>
+			<p><span id="type">Guild</span> Name: <wbr><span id="Example"
+					style="color:#00cc00; background-color:#0f0f0f;">Example</span><span id="novalty"
+					style="background-color:#7b7262;"></span></p>
+			<div id="Texts" style="text-align:center;">
+				<div id="Text-1" style="display:inline;">
+					<textarea id="TextIn-1" style="">Example</textarea><br>
+					<input id="ColorIn-1" class="color" type="color" value="#00cc00" style="">
+				</div>
+			</div>
+			<br>
+			<button onclick="GetAndSet()">Get code</button>
+			<button onclick="Add()">Add Text</button>
+			<button onclick="Remove()">Remove Text</button>
+			<input type="radio" name="codeType" value="Guild" id="Guild" checked onclick="checkRadio();">Guild
+			<input type="radio" name="codeType" value="Server" id="Server" onclick="checkRadio();">Server
+			<p>Color Code:</p>
+			<textarea id="Output" style="width:500px;"></textarea>
+
+			<br>
+			<br>
+			<br>
+			<p>Use this hex color code generator to make color codes for your guild or server name in attack on titan
+				tribute game<br>Created by me Corona de Deus, feel free to examine and use the source, pretty simple
+				stuff.<br><span style="color:#ff0000">Picking colors may not work on Internet Explorer nor
+					Safari</span><br></p>
+			<span style="color:#5c5">For more convenience I recommend that you use the <a
+					href="http://aotanticheat.weebly.com/">AOTTG Anti-Cheat Client</a> as it has the copy paste features
+				for better convenience, I am still working on contacting other mod devs and Feng himself on allowing
+				copy/paste in the GUI text entry but for now this will do.</span><br></p>
+			<a href="https://twitter.com/Ese_Corona" class="twitter-follow-button" data-show-count="false"
+				data-size="large">Follow @Ese_Corona</a>
+			<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+		</div>
+	</center>
+
+</body>
+
+</html>
